@@ -68,7 +68,12 @@ export default function App() {
           highscore:
             state.points > state.highscore ? state.points : state.highscore,
         };
-
+      case "Restart":
+        return {
+          ...initialState,
+          questions: state.questions,
+          status: "ready",
+        };
       default:
         throw new Error("Unknown Error");
     }
@@ -118,6 +123,7 @@ export default function App() {
             points={points}
             maxpossiblepoints={maxPossiblepoints}
             highscore={highscore}
+            dispatch={dispatch}
           />
         )}
       </Main>
