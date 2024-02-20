@@ -17,6 +17,9 @@ export default function App() {
   const initialState = {
     questions: [],
     status: "loading",
+    index: 0,
+    answer: null,
+    points: 0,
   };
 
   function reducer(state, action) {
@@ -38,12 +41,20 @@ export default function App() {
           ...state,
           status: "active",
         };
+      case "newAnswer":
+        return {
+          ...state,
+          answer: action.payload,
+        };
       default:
         throw new Error("Unknown Error");
     }
   }
 
-  const [{ status, questions }, dispatch] = useReducer(reducer, initialState);
+  const [{ status, questions, index, answer }, dispatch] = useReducer(
+    reducer,
+    initialState
+  );
   const numQuestions = questions.length;
 
   return (
@@ -55,7 +66,13 @@ export default function App() {
         {status === "ready" && (
           <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
         )}
-        {status === "active" && <Question />}
+        {status === "active" && (
+          <Question
+            question={questions[index]}
+            answer={answer}
+            dispatch={dispatch}
+          />
+        )}
       </Main>
     </div>
   );
